@@ -1,0 +1,603 @@
+DELETE FROM sun_recipe_line;
+DELETE FROM sun_vend_to_raw_mat;
+DELETE FROM sun_order_line;
+DELETE FROM sun_order;
+DELETE FROM sun_customer;
+DELETE FROM sun_pastry;
+DELETE FROM sun_vendor;
+DELETE FROM sun_raw_material;
+DELETE FROM sun_recipe;
+
+DROP SEQUENCE sun_customer_pk_seq;
+
+DROP SEQUENCE sun_vendor_pk_seq;
+
+CREATE SEQUENCE sun_customer_pk_seq
+INCREMENT BY 1	
+START WITH 200	
+NOCYCLE			
+NOCACHE;
+
+CREATE SEQUENCE sun_vendor_pk_seq
+INCREMENT BY 1
+START WITH 300
+NOCYCLE
+NOCACHE;
+
+INSERT INTO sun_customer
+(
+cust_code			,
+cust_business_name	,
+cust_area_code		,
+cust_phone_num
+)
+VALUES
+(
+sun_customer_pk_seq.NEXTVAL	,
+'YUM-YUM Come Have Some!'	,
+724							,
+5551212
+);
+
+INSERT INTO sun_customer
+(
+cust_code			,
+cust_business_name	,
+cust_area_code		,
+cust_phone_num
+)
+VALUES
+(
+sun_customer_pk_seq.NEXTVAL	,
+'Fatso''s'					,
+724							,
+5551234
+);
+
+INSERT INTO sun_customer
+(
+cust_code			,
+cust_business_name	,
+cust_area_code		,
+cust_phone_num
+)
+VALUES
+(
+sun_customer_pk_seq.NEXTVAL	,
+'The Java Stop at Cal'		,
+412							,
+5552345
+);
+
+INSERT INTO sun_customer
+(
+cust_code			,
+cust_business_name	,
+cust_area_code		,
+cust_phone_num
+)
+VALUES
+(
+sun_customer_pk_seq.NEXTVAL	,
+'Life is Good'				,
+412							,
+5556789
+);
+
+
+
+
+INSERT INTO sun_vendor			
+(
+vendor_code				,
+vendor_business_name	,
+vendor_area_code		,
+vendor_phone_num
+)
+VALUES
+(
+sun_vendor_pk_seq.NEXTVAL		,
+'Summer''s Chef Supply Company'	,
+801								,
+5559999
+);
+
+INSERT INTO sun_vendor
+(
+vendor_code				,
+vendor_business_name	,
+vendor_area_code		,
+vendor_phone_num
+)
+VALUES
+(
+sun_vendor_pk_seq.NEXTVAL	,
+'Skye''s the Limit Gourmet'	,
+755 						,
+5559876
+);
+
+INSERT INTO sun_vendor
+(
+vendor_code				,
+vendor_business_name	,
+vendor_area_code		,
+vendor_phone_num
+)
+VALUES
+(
+sun_vendor_pk_seq.NEXTVAL	,
+'Shake-n-Bake It!'			,
+724 						,
+5559765
+);
+
+
+
+INSERT INTO sun_raw_material		
+(
+raw_material_code		,
+raw_mat_name			,
+raw_mat_qty_per_unit	,
+raw_mat_unit			,
+RAW_MAT_PRICE_Per_UNIT	
+)
+VALUES
+(
+400			,
+'Flour'		,
+50,
+'pound bag' ,
+30.25
+);
+
+INSERT INTO sun_raw_material
+(
+raw_material_code		,
+raw_mat_name			,
+raw_mat_qty_per_unit	,
+raw_mat_unit			,
+RAW_MAT_PRICE_Per_UNIT	,
+RAW_MAT_STRG_INSTRUCT
+)
+VALUES
+(
+401					,
+'Granulated Sugar'	,
+25					,
+'pound bag'			,
+12.75				,
+'Avoid Heat.'
+);
+
+INSERT INTO sun_raw_material
+(
+raw_material_code		,
+raw_mat_name			,
+raw_mat_qty_per_unit	,
+raw_mat_unit			,
+RAW_MAT_PRICE_Per_UNIT	,
+RAW_MAT_STRG_INSTRUCT
+)
+VALUES
+(
+403							,
+'Butter'					,
+50,
+'one-pound boxes per case'	,
+252.95						,
+'Refrigerate until use.'
+);
+
+INSERT INTO sun_raw_material
+(
+raw_material_code		,
+raw_mat_name			,
+raw_mat_qty_per_unit	,
+raw_mat_unit			,
+RAW_MAT_PRICE_Per_UNIT	
+)
+VALUES
+(
+406							,
+'Cinnamon'					,
+16							,
+'ounce container'			,
+12.75						
+);
+
+INSERT INTO sun_raw_material
+(
+raw_material_code		,
+raw_mat_name			,
+raw_mat_qty_per_unit	,
+raw_mat_unit			,
+RAW_MAT_PRICE_Per_UNIT	
+)
+VALUES
+(
+408							,
+'Shortening'				,
+20							,
+'pound container'			,
+22.5						
+);
+
+INSERT INTO sun_raw_material
+(
+raw_material_code		,
+raw_mat_name			,
+raw_mat_qty_per_unit	,
+raw_mat_unit			,
+RAW_MAT_PRICE_Per_UNIT	,
+RAW_MAT_STRG_INSTRUCT
+)
+VALUES
+(
+409							,
+'Rapid Rise Yeast'			,
+10							,
+'two-pound packs'			,
+134.1						,
+'Avoid extreme temperatures.'						
+);
+
+INSERT INTO sun_raw_material
+(
+raw_material_code		,
+raw_mat_name			,
+raw_mat_qty_per_unit	,
+raw_mat_unit			,
+RAW_MAT_PRICE_Per_UNIT	
+)
+VALUES
+(
+410								,
+'Artificial Sweetener'			,
+10								,
+'pound bag'						,
+102.95													
+);
+
+
+
+
+INSERT INTO sun_recipe
+(
+recipe_code		,
+recipe_title	,
+recipe_desc		,
+recipe_spec_instruct
+)
+VALUES
+(
+532											,
+'Sinful Cinnamon Buns'						,
+'Sinful Cinnamon Buns - original recipe'	,
+'Glaze while still warm.'
+);
+
+INSERT INTO sun_recipe
+(
+recipe_code		,
+recipe_title	,
+recipe_spec_instruct
+)
+VALUES
+(
+550											,
+'Stormi''s Special Lady Locks'				,
+'90 minute cool before filling.'
+);
+
+
+
+INSERT INTO sun_pastry		
+(
+pastry_code				,
+pastry_name				,
+pastry_desc				,
+pastry_price_per_unit	,
+recipe_code				,
+pastry_baked_date
+)
+VALUES
+(
+732										,
+'Sinful Cinnamon Buns'					,
+'Sinful Cinnamon Buns - original recipe',
+2.75									,
+532										,
+TO_DATE('02/13/2022', 'MM/DD/YYYY')							
+);
+
+INSERT INTO sun_pastry
+(
+pastry_code				,
+pastry_name				,
+--pastry_desc			,
+pastry_price_per_unit	,
+recipe_code				,
+pastry_baked_date
+)
+VALUES
+(
+750									,
+'Stormi''s Special Lady Locks'		,
+.9									,
+550									,
+TO_DATE('02/14/2022', 'MM/DD/YYYY')							
+);
+
+
+
+
+INSERT INTO sun_vend_to_raw_mat
+(
+vendor_code			,
+raw_material_code	
+)
+VALUES
+(
+300,
+400
+);
+
+INSERT INTO sun_vend_to_raw_mat
+(
+vendor_code			,
+raw_material_code	
+)
+VALUES
+(
+301,
+400
+);
+
+INSERT INTO sun_vend_to_raw_mat
+(
+vendor_code			,
+raw_material_code	
+)
+VALUES
+(
+302,
+400
+);
+
+INSERT INTO sun_vend_to_raw_mat
+(
+vendor_code			,
+raw_material_code	
+)
+VALUES
+(
+300,
+406
+);
+
+INSERT INTO sun_vend_to_raw_mat
+(
+vendor_code			,
+raw_material_code	
+)
+VALUES
+(
+302,
+408
+);
+
+INSERT INTO sun_vend_to_raw_mat
+(
+vendor_code			,
+raw_material_code	
+)
+VALUES
+(
+300,
+409
+);
+
+INSERT INTO sun_vend_to_raw_mat
+(
+vendor_code			,
+raw_material_code	
+)
+VALUES
+(
+301,
+410
+);
+
+
+
+INSERT INTO sun_order
+(
+order_num	,
+order_date	,
+cust_code
+)
+VALUES
+(
+10013								,
+TO_DATE('02/21/2022','MM/DD/YYYY')	,
+200
+);
+
+
+
+INSERT INTO sun_order_line
+(
+order_num		,
+order_line_num	,
+pastry_code		,
+quantity_ordered
+)
+VALUES
+(
+10013	,
+1		,
+732		,
+24
+);
+
+INSERT INTO sun_order_line
+(
+order_num		,
+order_line_num	,
+pastry_code		,
+quantity_ordered
+)
+VALUES
+(
+10013	,
+2		,
+750		,
+120
+);
+
+
+
+INSERT INTO sun_recipe_line		--not good
+(
+recipe_code			,
+recipe_line_num		,
+raw_material_code	,
+raw_mat_amount		,
+RAW_MAT_AMT_UNIT	
+)
+VALUES
+(
+532		,
+1		,
+400 	,
+2		,
+'cup'	
+);
+
+INSERT INTO sun_recipe_line
+(
+recipe_code			,
+recipe_line_num		,
+raw_material_code	,
+raw_mat_amount		,
+RAW_MAT_AMT_UNIT	
+)
+VALUES
+(
+532		,
+2		,
+403		,
+.75		,
+'cup'	
+);
+
+INSERT INTO sun_recipe_line
+(
+recipe_code			,
+recipe_line_num		,
+raw_material_code	,
+raw_mat_amount		,
+RAW_MAT_AMT_UNIT	,
+RECIPE_INGRED_SPEC_INST	
+)
+VALUES
+(
+532		,	
+3		,
+409		,
+.25		,
+'cup'	,
+'Mix with 1/2 cup warm milk to dilute first.'
+);
+
+INSERT INTO sun_recipe_line
+(
+recipe_code			,
+recipe_line_num		,
+raw_material_code	,
+raw_mat_amount		,
+RAW_MAT_AMT_UNIT	
+)
+VALUES
+(
+532		,
+4		,
+401		,
+1		,
+'cup'	
+);
+
+INSERT INTO sun_recipe_line
+(
+recipe_code			,
+recipe_line_num		,
+raw_material_code	,
+raw_mat_amount		,
+RAW_MAT_AMT_UNIT	
+)
+VALUES
+(
+532		,
+5		,
+406		,
+3		,
+'tablespoon'	
+);
+
+INSERT INTO sun_recipe_line
+(
+recipe_code			,
+recipe_line_num		,
+raw_material_code	,
+raw_mat_amount		,
+RAW_MAT_AMT_UNIT	
+)
+VALUES
+(
+550		,
+1		,
+400		,
+2		,
+'cup'	
+);
+
+INSERT INTO sun_recipe_line
+(
+recipe_code			,
+recipe_line_num		,
+raw_material_code	,
+raw_mat_amount		,
+RAW_MAT_AMT_UNIT	,
+RECIPE_INGRED_SPEC_INST	
+)
+VALUES
+(
+550		,
+2		,
+408		,
+1.5		,
+'cup'	,
+'Must be chilled. Dough hook quickly until pellets.'
+);
+
+INSERT INTO sun_recipe_line
+(
+recipe_code			,
+recipe_line_num		,
+raw_material_code	,
+raw_mat_amount		,
+RAW_MAT_AMT_UNIT	,
+RECIPE_INGRED_SPEC_INST	
+)
+VALUES
+(
+550		,
+3		,
+401		,
+2		,
+'cup'	,
+'Low heat with butter until dissolved.  Cool for 2 hours'
+);
+
+COMMIT; 
