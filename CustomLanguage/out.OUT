@@ -1,0 +1,9 @@
+token number:  16     token type:  RPAREN              actual token:   )              
+token number:  31     token type:  SCANEOF             actual token:   EOF            
+token number:  5      token type:  THEN                actual token:   then           
+token number:  31     token type:  SCANEOF             actual token:   EOF            
+token number:  4      token type:  IF                  actual token:   if             
+token number:  15     token type:  LPAREN              actual token:   (              
+token number:  31     token type:  SCANEOF             actual token:   EOF            
+token number:  0      token type:  BEGIN               actual token:   begin          
+token number:  31     token type:  SCANEOF             actual token:   EOF            
