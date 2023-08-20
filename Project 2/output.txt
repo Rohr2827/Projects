@@ -1,0 +1,11 @@
+Token:   Count:   
+  'he		1
+  did		1
+  he		2
+  said		1
+  dog		2
+  hello		2
+  cat		1
+
+Token Num:7
+Sum:15
