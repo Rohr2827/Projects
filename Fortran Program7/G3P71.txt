@@ -1,0 +1,312 @@
+!1234567
+
+! G3P7, Program5, Jared Rohrbaugh, Caleb Cordis, Andrew Yankovich, Group 3
+! CSC 306
+! Dr. Pyzdrowski
+! Group 3
+
+
+		PROGRAM G3P7
+		Implicit none 
+		
+		LOGICAL :: quit = .FALSE.
+		CHARACTER ::file_name*30
+		CHARACTER ::line*80
+		INTEGER:: count = 0
+		
+		CHARACTER :: people(25)*30
+		INTEGER :: num(25)
+				
+		CALL getif(file_name,quit)
+		
+		if(quit.EQV..FALSE.)then
+		CALL getof(file_name,quit)
+		end if
+		
+		if(quit.EQV..FALSE.)then
+		CALL readf(people, num, count)
+		end if
+		
+		if(quit.EQV..FALSE.)then
+		CALL linked(people, num, count)
+		end if
+		
+!		if(quit.EQV..FALSE.)then
+!		CALL printf(quit,mix,max,miy,may,stepx,stepy,xa,ya,xya)
+!		end if	
+	
+		end PROGRAM
+		
+		
+	
+		SUBROUTINE getif(file_name,quit)
+				
+		CHARACTER, INTENT(OUT):: file_name*30
+		LOGICAL, INTENT(OUT):: quit
+		INTEGER status
+		LOGICAL :: exists = .FALSE.
+		
+		WRITE(*,*)"Please enter an input file name."
+		READ(*,'(A)') file_name
+	
+		INQUIRE(File = file_name, EXIST = exists)
+		
+		if(exists)then 
+			
+			OPEN(UNIT=1, FILE=file_name,STATUS='OLD', IOSTAT=status)
+			WRITE(*,*)'File: ', TRIM(file_name), ' opened.'
+			
+		else 
+		
+		do while((exists .EQV. .FALSE.) .AND. (quit .EQV. .FALSE.))
+		
+			WRITE(*,*)'File: ', TRIM (file_name), ' does not exist.'
+			WRITE(*,*)'Please enter an input file name or QUIT to quit'
+			READ(*,'(A)') file_name
+			
+			INQUIRE(File = file_name, EXIST = exists)
+			
+			if(exists)then 
+			
+			OPEN(UNIT=1, FILE=file_name,STATUS='OLD', IOSTAT=status)
+			WRITE(*,*)'File: ', TRIM(file_name), ' opened.'
+			
+			end if
+			
+			if(file_name .EQ. 'QUIT')then
+			
+				quit = .TRUE.
+				
+			end if
+			
+		end do
+
+		end if	
+		
+		end SUBROUTINE
+		
+		
+		
+		RECURSIVE SUBROUTINE getof(file_name,quit)
+		
+		CHARACTER, INTENT(OUT):: file_name*30
+		LOGICAL, INTENT(OUT):: quit
+		INTEGER status, choice
+		LOGICAL :: exists = .FALSE.
+		
+		WRITE(*,*)"Please enter an output file name."
+		READ(*,'(A)') file_name
+	
+		INQUIRE(File = file_name, EXIST = exists)
+		
+		if(exists)then 
+			
+		WRITE(*,*)'File: ', TRIM (file_name), ' already exists.'
+		WRITE(*,*)'Would you like to'
+		WRITE(*,*)'1 enter a new file name'
+		WRITE(*,*)'2 overwrite existing file'
+		WRITE(*,*)'3 QUIT'
+		
+		READ(*,*)choice
+		
+		SELECT CASE(choice)
+		
+		case(1)
+		
+		CALL getof(file_name,quit)
+			
+		case(2)
+			
+		OPEN(UNIT=2, FILE=file_name,STATUS='REPLACE',IOSTAT=status)
+		WRITE(*,*)'File: ', TRIM(file_name), ' opened.'
+			
+		case(3)
+			
+		quit = .TRUE.
+			
+		case default
+		
+		END SELECT
+		
+		else 
+					
+		OPEN(UNIT=2, FILE=file_name,STATUS='NEW', IOSTAT=status)
+		WRITE(*,*)'File: ', TRIM(file_name), ' opened.'
+
+		end if	
+		
+		end SUBROUTINE
+		
+		
+		
+		SUBROUTINE readf(people, num, count)
+			
+		INTEGER ::i = 1, j = 1, status
+		CHARACTER, INTENT(OUT):: people(25)*30
+		INTEGER, INTENT(OUT):: num(25)
+		INTEGER, INTENT(OUT):: count
+				
+		do i= 1, 25 !maybe change to a do while so you can stop when bad data is found
+		
+			READ(1,*, IOSTAT = status) people(i)
+						
+			READ(1,*, IOSTAT = status) num(i)
+			
+			if(status .EQ. 0)then
+			
+			!WRITE(*,*) people(i)
+			!WRITE(*,*)num(i)			
+			count = count+1	
+										
+			end if
+
+		end do
+		
+		if(count .EQ. 25)then
+			
+			WRITE(*,*)'You reached 25 inputs every input after ',TRIM(people(25)),' will not be included'
+			
+		else
+		
+			WRITE(*,*)count ,' inputs included in the list'
+			
+		end if	
+		END SUBROUTINE
+		
+		
+		
+		
+		
+		
+		
+		SUBROUTINE linked(people, num, count) !make sure its double linked
+		
+		CHARACTER, INTENT(OUT):: people(25)*30
+		INTEGER, INTENT(OUT):: num(25)
+		INTEGER, INTENT(OUT):: count
+		
+  1     FORMAT(' ','New node',I3,' entered with the data ',A10,I3)
+  2		FORMAT(' ','First node 1 entered with the data ',A10,I3)
+  3		FORMAT(' ','Starting with ',A10,' with a count of',I3)
+			
+		
+		TYPE::node !initializes the linked list
+		
+		CHARACTER::people1*30
+		INTEGER:: num1
+				
+		TYPE(node), Pointer:: next, prev
+		
+		END TYPE
+		
+		
+		TYPE(node), POINTER:: headp, tailp, curp !sets pointers for the linked list
+		INTEGER istat
+		NULLIFY(headp,tailp)
+		
+		do i = 1, count !assigns values for the linked list
+		
+			ALLOCATE(curp, STAT = istat)
+			
+			if(istat .EQ. 0)then
+			
+				NULLIFY(curp%next)
+				
+				if(num(i) .NE. 0)then !makes first node
+				
+				curp%people1 = people(i)
+				curp%num1 = num(i)
+				
+				else
+				
+				WRITE(*,*) TRIM(people(i)), ' has a count of zero and will not be added'
+				
+				end if
+			
+			end if
+					
+			if(ASSOCIATED(headp))then ! checks if there is a first node
+			
+				tailp%next=> curp !if there is make the next node
+				tailp=> curp
+				
+				WRITE(*,1) i,TRIM(curp%people1), curp%num1
+				
+			else
+			
+				headp=>curp !make head and tail equal the first node
+				tailp=>curp
+				
+				WRITE(*,2)TRIM(headp%people1), headp%num1
+			
+			end if
+			
+			!WRITE(*,*)'head ',headp%people1, headp%num1
+			!WRITE(*,*)'curent ',curp%people1, curp%num1
+			!WRITE(*,*)'tail ',tailp%people1, tailp%num1
+			
+		end do
+		
+		WRITE(*,*)'Data Entry complete'
+		WRITE(*,*)'             '
+		
+		
+		
+		
+		
+		!start of eliminating data
+		
+		curp => headp
+		
+		do i = 1, count
+		
+		if(ASSOCIATED(curp%next) .OR. ASSOCIATED(curp%prev))then
+		
+		WRITE(*,3)TRIM(curp%people1),curp%num1
+		
+			if(curp%num1 .GT. 0)then
+			
+				if(ASSOCIATED(curp%next))then
+				
+				WRITE(*,*)'cur',curp%people1
+				
+				!MOVE TO THE NEXT NOde
+				curp => curp%next
+				!curp%next=>curp
+				
+				WRITE(*,*)'new cur',curp%people1
+				
+				else
+				
+				curp => headp
+				
+				end if
+				
+			else
+			
+				if(ASSOCIATED(curp%prev))then
+				
+				WRITE(*,*)'cur',curp%people1
+				
+				!move to prev node
+				curp => curp%prev
+				
+				WRITE(*,*)'new cur',curp%people1
+				
+				else
+				
+				curp => tailp
+				
+				end if
+			
+			end if
+		
+		end if
+		
+		
+		end do
+		
+				
+		
+		
+		END SUBROUTINE
